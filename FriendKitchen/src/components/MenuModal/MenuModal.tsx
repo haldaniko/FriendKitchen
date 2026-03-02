@@ -22,13 +22,7 @@ const CATEGORY_ICONS: Record<string, string> = {
     'СТУДЕНИ ЯСТИЯ / РАЗЯДКИ': HotIcon,
 };
 
-type Product = {
-    id: number | string;
-    name: string;
-    weight: number;
-    price: number;
-    category?: string;
-};
+import { type Product } from '../../api/menuApi';
 
 interface MenuModalProps {
     isOpen: boolean;
@@ -110,26 +104,44 @@ const MenuModal: React.FC<MenuModalProps> = ({ isOpen, onClose, selectedItems })
                             </div>
                         </header>
 
-                        {Object.entries(groupedItems).map(([category, items]) => (
-                            <div key={category} className={styles.categoryGroup}>
-                                <div className={styles.categoryHeader}>
-                                    {CATEGORY_ICONS[category] && (
-                                        <img src={CATEGORY_ICONS[category]} alt={category} className={styles.categoryIcon} />
-                                    )}
-                                    <h3 className={styles.categoryName}>{category}</h3>
+                        {Object.keys(groupedItems)
+                            .sort((a, b) => {
+                                const order = [
+                                    'СУПИ',
+                                    'САЛАТИ',
+                                    'ОСНОВНИ ЯСТИЯ',
+                                    'МЕСО И РИБА',
+                                    'ГАРНИТУРИ',
+                                    'СТУДЕНИ ЯСТИЯ / РАЗЯДКИ',
+                                    'ДЕСЕРТИ'
+                                ];
+                                const indexA = order.indexOf(a);
+                                const indexB = order.indexOf(b);
+                                if (indexA !== -1 && indexB !== -1) return indexA - indexB;
+                                if (indexA !== -1) return -1;
+                                if (indexB !== -1) return 1;
+                                return a.localeCompare(b);
+                            })
+                            .map(category => (
+                                <div key={category} className={styles.categoryGroup}>
+                                    <div className={styles.categoryHeader}>
+                                        {CATEGORY_ICONS[category] && (
+                                            <img src={CATEGORY_ICONS[category]} alt={category} className={styles.categoryIcon} />
+                                        )}
+                                        <h3 className={styles.categoryName}>{category}</h3>
+                                    </div>
+                                    <ul className={styles.itemList}>
+                                        {groupedItems[category].map(item => (
+                                            <li key={item.id} className={styles.menuItem}>
+                                                <span className={styles.itemName}>{item.name}</span>
+                                                <span className={styles.itemDetails}></span>
+                                                {item.weight && item.weight > 0 ? <span className={styles.itemWeight}>{item.weight} гр</span> : null}
+                                                <span className={styles.itemPrice}>€{Number(item.price).toFixed(2)}</span>
+                                            </li>
+                                        ))}
+                                    </ul>
                                 </div>
-                                <ul className={styles.itemList}>
-                                    {items.map(item => (
-                                        <li key={item.id} className={styles.menuItem}>
-                                            <span className={styles.itemName}>{item.name}</span>
-                                            <span className={styles.itemDetails}></span>
-                                            {item.weight > 0 && <span className={styles.itemWeight}>{item.weight} гр</span>}
-                                            <span className={styles.itemPrice}>€{Number(item.price).toFixed(2)}</span>
-                                        </li>
-                                    ))}
-                                </ul>
-                            </div>
-                        ))}
+                            ))}
                     </div>
                 </div>
 

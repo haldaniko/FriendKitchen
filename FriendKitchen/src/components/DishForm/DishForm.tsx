@@ -14,13 +14,13 @@ const DishForm: React.FC<DishFormProps> = ({ onDishAdded, availableCategories })
     const [dishCategory, setDishCategory] = useState('');
 
     const handleAddDish = async () => {
-        if (!dishName || !dishPrice || dishWeight === '' || !dishCategory) {
-            alert('Заполните все поля!');
+        if (!dishName || !dishPrice || !dishCategory) {
+            alert('Заполните обязательные поля (Название, Цена, Категория)!');
             return;
         }
 
-        const weight = Number(dishWeight);
-        if (weight < 0) {
+        const weight = dishWeight !== '' ? Number(dishWeight) : undefined;
+        if (weight !== undefined && weight < 0) {
             alert('Вес не может быть отрицательным!');
             return;
         }
@@ -32,7 +32,14 @@ const DishForm: React.FC<DishFormProps> = ({ onDishAdded, availableCategories })
         }
 
         try {
-            const response = await fetch(`${API_BASE}/menu`, {
+            const itemData = {
+                name: dishName,
+                price: price,
+                weight: weight,
+                category: dishCategory
+            };
+
+            await fetch(`${API_BASE}/menu`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

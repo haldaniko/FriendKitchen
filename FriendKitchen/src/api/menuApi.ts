@@ -3,7 +3,7 @@ import { API_BASE_URL } from './config';
 export type Product = {
     id: number | string;
     name: string;
-    weight: number;
+    weight?: number;
     price: number;
     category?: string;
 };

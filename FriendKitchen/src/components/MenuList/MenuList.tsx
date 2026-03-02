@@ -2,13 +2,7 @@ import React from 'react';
 import MenuItem from '../MenuItem/MenuItem';
 import styles from './MenuList.module.scss';
 
-type Product = {
-    id: number | string;
-    name: string;
-    weight: number;
-    price: number;
-    category?: string;
-};
+import { type Product } from '../../api/menuApi';
 
 interface MenuListProps {
     items: Product[];

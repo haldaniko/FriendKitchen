@@ -1,13 +1,7 @@
 import React from 'react';
 import styles from './MenuItem.module.scss';
 
-type Product = {
-    id: number | string;
-    name: string;
-    weight: number;
-    price: number;
-    category?: string;
-};
+import { type Product } from '../../api/menuApi';
 
 interface MenuItemProps {
     item: Product;
@@ -116,7 +110,7 @@ const MenuItem: React.FC<MenuItemProps> = ({
                 <>
                     <span>
                         <strong>{item.name}</strong>
-                        {item.weight > 0 ? ` (${item.weight}г)` : ''}
+                        {item.weight && item.weight > 0 ? ` (${item.weight}г)` : ''}
                         — {(() => {
                             const p = Number(item.price);
                             return isNaN(p) ? 'N/A' : p.toFixed(2);

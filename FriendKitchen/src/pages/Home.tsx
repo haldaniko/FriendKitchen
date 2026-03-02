@@ -2,37 +2,23 @@ import { useState, useEffect } from 'react'
 import styles from './Home/Home.module.scss';
 import DishCard from '../components/DishCard/DishCard';
 import MenuModal from '../components/MenuModal/MenuModal';
-import { API_BASE } from '../config/api';
-
-type Product = {
-    id: number | string;
-    name: string;
-    weight: number;
-    price: number;
-    category?: string;
-};
+import { menuApi, type Product } from '../api/menuApi';
 
 const Home = () => {
     const [menuItems, setMenuItems] = useState<Product[]>([])
     const [selectedIds, setSelectedIds] = useState<Set<number | string>>(new Set())
     const [isModalOpen, setIsModalOpen] = useState(false);
 
-    const AVAILABLE_CATEGORIES = [
-        'САЛАТИ',
-        'СТУДЕНИ ЯСТИЯ / РАЗЯДКИ',
+    const CATEGORY_ORDER = [
         'СУПИ',
+        'САЛАТИ',
         'ОСНОВНИ ЯСТИЯ',
         'МЕСО И РИБА',
         'ГАРНИТУРИ',
+        'СТУДЕНИ ЯСТИЯ / РАЗЯДКИ',
         'ДЕСЕРТИ'
     ];
 
-    const fetchMenu = () => {
-        return fetch(`${API_BASE}/menu`)
-            .then(res => res.json())
-            .then(data => setMenuItems(data))
-            .catch(err => console.error('Error fetching menu:', err));
-    };
 
     useEffect(() => {
         let ignore = false;
@@ -78,8 +64,8 @@ const Home = () => {
     }, {} as Record<string, Product[]>);
 
     const categories = Object.keys(groupedItems).sort((a, b) => {
-        const indexA = AVAILABLE_CATEGORIES.indexOf(a);
-        const indexB = AVAILABLE_CATEGORIES.indexOf(b);
+        const indexA = CATEGORY_ORDER.indexOf(a);
+        const indexB = CATEGORY_ORDER.indexOf(b);
         if (indexA !== -1 && indexB !== -1) return indexA - indexB;
         if (indexA !== -1) return -1;
         if (indexB !== -1) return 1;

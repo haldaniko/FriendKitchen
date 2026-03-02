@@ -1,13 +1,7 @@
 import React from 'react';
 import styles from './DishCard.module.scss';
 
-type Product = {
-    id: number | string;
-    name: string;
-    weight: number;
-    price: number;
-    category?: string;
-};
+import { type Product } from '../../api/menuApi';
 
 interface DishCardProps {
     item: Product;
@@ -26,7 +20,7 @@ const DishCard: React.FC<DishCardProps> = ({ item, isSelected, onToggle }) => {
                 <span className={styles.name}>{item.name}</span>
             </div>
             <div className={styles.details}>
-                <span className={styles.weight}>{item.weight > 0 ? `${item.weight}г` : ''}</span>
+                <span className={styles.weight}>{item.weight && item.weight > 0 ? `${item.weight}г` : ''}</span>
                 <span className={styles.price}>{Number(item.price).toFixed(2)}€</span>
             </div>
         </div>
