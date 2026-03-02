@@ -16,7 +16,6 @@ services:
       context: ./FriendKitchen
       dockerfile: Dockerfile
       args:
-        VITE_BASE_PATH: /
         VITE_API_BASE_URL: /api
     ports:
       - "8003:80"

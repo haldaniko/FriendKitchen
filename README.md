@@ -82,8 +82,11 @@ docker compose up -d --build
 ```
 
 After startup:
-- App: [http://localhost/](http://localhost/)
-- API (through Nginx): [http://localhost/api/menu](http://localhost/api/menu)
+- App: [http://localhost:8003/](http://localhost:8003/)
+- API (through Nginx): [http://localhost:8003/api/menu](http://localhost:8003/api/menu)
+
+Backend DB file is persisted on host in:
+- `backend/database.db`
 
 ### Stop containers
 
