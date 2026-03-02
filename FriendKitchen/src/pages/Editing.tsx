@@ -72,7 +72,7 @@ export const Editing = () => {
 
       await menuApi.update(id, {
         name,
-        weight: (weight as any !== undefined && weight as any !== '') ? Number(weight) : undefined,
+        weight: (weight as any !== undefined && weight as any !== '') ? Number(weight) : 0,
         price: Number(price),
         category
       });
