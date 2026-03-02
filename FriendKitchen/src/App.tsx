@@ -5,9 +5,26 @@ import Home from './pages/Home';
 import Editing from './pages/Editing';
 import ScrollToTop from './components/ScrollToTop/ScrollToTop';
 
+const normalizeBasename = (baseUrl: string) => {
+  if (!baseUrl || baseUrl === './' || baseUrl === '/./') {
+    return '/';
+  }
+
+  let normalized = baseUrl.startsWith('/') ? baseUrl : `/${baseUrl}`;
+  normalized = normalized.replace(/\/\.\//g, '/').replace(/\/+/g, '/');
+
+  if (normalized.length > 1 && normalized.endsWith('/')) {
+    normalized = normalized.slice(0, -1);
+  }
+
+  return normalized;
+};
+
+const routerBasename = normalizeBasename(import.meta.env.BASE_URL);
+
 function App() {
   return (
-    <Router basename={import.meta.env.BASE_URL}>
+    <Router basename={routerBasename}>
       <div className="appContainer">
         <Header />
         <Routes>
