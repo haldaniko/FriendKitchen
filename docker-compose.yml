@@ -6,7 +6,7 @@ services:
     environment:
       NODE_ENV: production
       PORT: 3000
-      DB_PATH: /data/database.db
+      DB_PATH: database.db
     volumes:
       - ./backend:/data
     restart: unless-stopped
