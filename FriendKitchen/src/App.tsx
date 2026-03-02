@@ -20,7 +20,18 @@ const normalizeBasename = (baseUrl: string) => {
   return normalized;
 };
 
-const routerBasename = normalizeBasename(import.meta.env.BASE_URL);
+const inferBasenameFromPathname = (pathname: string) => {
+  if (pathname === '/kitchen' || pathname.startsWith('/kitchen/')) {
+    return '/kitchen';
+  }
+
+  return '/';
+};
+
+const resolvedBase = normalizeBasename(import.meta.env.BASE_URL);
+const routerBasename = resolvedBase !== '/'
+  ? resolvedBase
+  : inferBasenameFromPathname(window.location.pathname);
 
 function App() {
   return (
